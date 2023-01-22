@@ -6,7 +6,7 @@ node_modules/
 # /frontend/.pnp
 # /frontend/.pnp.js
 
-#/frontend/package-lock.json
+/frontend/package-lock.json
 
 # testing
 #/coverage
