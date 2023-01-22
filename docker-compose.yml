@@ -41,19 +41,19 @@ services:
       - /app/node_modules
       - ./backend:/app
   #MYSQL 설정
-  mysql:
-    build: 
-      dockerfile: Dockerfile
-      context: ./mysql
-    restart: unless-stopped
-    container_name: app_mysql
-    ports:
-      - "3307:3306"
-    volumes:
-      #데이터를 별도로 관리하도록 볼륨설정 (컨테이너 내부에 데이터가 존재할 경우 컨테이너가 없어질 경우 데이터가 소실)
-      - ./mysql/mysql_data:/var/lib/mysql
-      - ./mysql/sqls/:/docker-entrypoint-initdb.d/
-    environment:
-      MYSQL_ROOT_PASSWORD: 1111
-      MYSQL_DATABASE: myapp
+  # mysql:
+  #   build: 
+  #     dockerfile: Dockerfile
+  #     context: ./mysql
+  #   restart: unless-stopped
+  #   container_name: app_mysql
+  #   ports:
+  #     - "3307:3306"
+  #   volumes:
+  #     #데이터를 별도로 관리하도록 볼륨설정 (컨테이너 내부에 데이터가 존재할 경우 컨테이너가 없어질 경우 데이터가 소실)
+  #     - ./mysql/mysql_data:/var/lib/mysql
+  #     - ./mysql/sqls/:/docker-entrypoint-initdb.d/
+  #   environment:
+  #     MYSQL_ROOT_PASSWORD: 1111
+  #     MYSQL_DATABASE: myapp
     
