@@ -1,0 +1,48 @@
+{
+    //Dockerrun 버전
+    "AWSEBDockerrunVersion": 2,
+
+    //이 안에서 컨테이너
+    "containerDefinitions": [
+        {
+            //컨테이너의 이름을 정의
+            "name" : "frontend",
+
+            //컨테이너를 구축할 Docker 이미지
+            "image": "sin9173/docker-frontend",
+
+            //호스트이름 (도커환경에서는 도커컨테이너끼리 접근시 사용)
+            "hostname": "frontend",
+
+            //컨테이너가 실패할 경우 작업을 중지할지의 여부 
+            "essential": false,
+
+            //컨테이너 메모리 할당량 (MB)
+            "memory": 128
+        },
+        {
+            "name" : "backend",
+            "image" : "sin9173/docker-backend",
+            "hostname" : "backend",
+            "essential" : false,
+            "memory" : 128
+        },
+        {
+            "name" : "nginx",
+            "image" : "sin9173/docker-nginx",
+            "hostname" : "nginx",
+            "essential" : true,
+            "portMappings" : [
+                //컨테이너 포트 매핑
+                {
+                    "hostPort" : 80,
+                    "containerPort" : 80
+                }
+            ],
+
+            //연결할 컨테이너 목록
+            "links" : ["frontend", "backend"],
+            "memory" : 128
+        }
+    ]
+}

@@ -12,12 +12,33 @@ script:
   - docker run -e CI=true sin9173/react-test-app npm run test
 
 after_success:
+  #각 이미지를 빌드
   - docker build -t sin9173/docker-frontend ./frontend
   - docker build -t sin9173/docker-backend ./backend
   - docker build -t sin9173/docker-nginx ./nginx
 
   - echo "$DOCKER_HUB_PASSWORD" | docker login -u "$DOCKER_HUB_ID" --password-stdin
 
+  #도커 허브에 push
   - docker push sin9173/docker-frontend
   - docker push sin9173/docker-backend
   - docker push sin9173/docker-nginx
+
+deploy:
+  #외부서비스 표시 (S3, elasticbeanstalk, firebase등)
+  provider: elasticbeanstalk
+  #현재사용하고 있는 AWS 서비스의 물리적 장소 (리전)
+  region: "us-east-2"
+  #생성된 어플리케이션 이름
+  app: "docker-fullstack-app"
+  #환경이름
+  env: DockerFullstackApp-env
+  #S3 버킷명
+  bucket_name: elasticbeanstalk-us-east-2-512440888874
+  bucket_path: "docker-fullstack-app"
+  on:
+    #어떤 브랜치에 push할 때 aws에 배포할 것인지 지정
+    branch: master
+
+  access_key_id: $AWS_ACCESS_KEY
+  secret_access_key: $AWS_SECRET_ACCESS_KEY  
